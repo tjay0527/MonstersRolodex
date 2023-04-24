@@ -1,9 +1,46 @@
-import { Component } from 'react';
+// import { Component } from 'react';//only needed for class components
+import { useState, useEffect } from 'react';//for functional components
 
 import CardList from './components/card-list/card-list.component';
 import SearchBox from './components/search-box/search-box.component';
 import './App.css';
 
+const App = () => {
+  const [searchField, setSearchField] = useState();//[value, setValue]
+  const [monsters, setMonsters] = useState([]);
+  const [filteredMonsters, setFilterMonsters] = useState(monsters);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then((response) => response.json())
+      .then((users) => setMonsters(users));
+  }, []);//we don't ever want to fetch the data other than the very first time
+
+  useEffect(() => {
+    const newFilteredMonsters = this.state.monsters.filter((monster) => {
+      return monster.name.toLocaleLowerCase().includes(searchField);
+    });
+    setFilterMonsters(newFilteredMonsters);
+  }, [monsters, searchField]);
+
+  const onSearchChange = (event) => {
+    const searchFieldString = event.target.value.toLocaleLowerCase();
+    setSearchField(searchFieldString);
+  }
+
+  return (
+    <div className='App'>
+        <h1 className='app-title'>Monsters Rolodex</h1>
+        <SearchBox 
+          className='monsters-search-box'
+          onChangeHandler={onSearchChange} 
+          placeholder='search monseters'>
+        </SearchBox>
+        <CardList monsters={filteredMonsters}/>
+      </div>
+  )
+}
+/*
 class App extends Component{
   constructor() {
     super();
@@ -58,3 +95,4 @@ class App extends Component{
 }
 
 export default App
+*/
