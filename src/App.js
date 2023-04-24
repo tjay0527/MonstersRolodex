@@ -6,10 +6,10 @@ import SearchBox from './components/search-box/search-box.component';
 import './App.css';
 
 const App = () => {
-  const [searchField, setSearchField] = useState();//[value, setValue]
+  const [searchField, setSearchField] = useState('');//[value, setValue]
   const [monsters, setMonsters] = useState([]);
   const [filteredMonsters, setFilterMonsters] = useState(monsters);
-
+  console.log("render")
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
     .then((response) => response.json())
@@ -17,7 +17,7 @@ const App = () => {
   }, []);//we don't ever want to fetch the data other than the very first time
 
   useEffect(() => {
-    const newFilteredMonsters = this.state.monsters.filter((monster) => {
+    const newFilteredMonsters = monsters.filter((monster) => {
       return monster.name.toLocaleLowerCase().includes(searchField);
     });
     setFilterMonsters(newFilteredMonsters);
@@ -30,16 +30,18 @@ const App = () => {
 
   return (
     <div className='App'>
-        <h1 className='app-title'>Monsters Rolodex</h1>
-        <SearchBox 
-          className='monsters-search-box'
-          onChangeHandler={onSearchChange} 
-          placeholder='search monseters'>
-        </SearchBox>
-        <CardList monsters={filteredMonsters}/>
-      </div>
+      <h1 className='app-title'>Monsters Rolodex</h1>
+      <SearchBox
+        className='monsters-search-box'
+        onChangeHandler={onSearchChange} 
+        placeholder='search monseters'>
+      </SearchBox>
+      <CardList monsters={filteredMonsters}/>
+    </div>
   )
 }
+
+export default App;
 /*
 class App extends Component{
   constructor() {

@@ -1,4 +1,3 @@
-import { Component } from "react";
 import Card from '../card/card.component';
 import './card-list.styles.css';
 
@@ -9,6 +8,8 @@ const CardList = ({ monsters }) => (//deconstruct right inside of the parameter 
         })}
     </div>
 );
+
+export default CardList;
 
 /*
 class CardList extends Component {
